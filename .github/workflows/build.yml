@@ -3,8 +3,10 @@ name: Build & Release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
 
 permissions:
   contents: write
@@ -29,9 +31,11 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Source archive
+        id: meta
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           git archive --format=zip -o "dist/IR-Recorder-Source-${VERSION}.zip" HEAD
 
       - uses: actions/upload-artifact@v4
@@ -41,11 +45,14 @@ jobs:
             dist/*.exe
             dist/*.zip
 
+      # Creates (or refreshes) the release for the version in package.json.
       - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          name: IR Recorder ${{ github.ref_name }}
+          tag_name: v${{ steps.meta.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: IR Recorder ${{ steps.meta.outputs.version }}
+          make_latest: true
           body_path: docs/RELEASE_NOTES.md
           files: |
             dist/IR-Recorder-Setup-*.exe
