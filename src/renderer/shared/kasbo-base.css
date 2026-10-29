@@ -1,0 +1,78 @@
+:root {
+	--kasbo-bg: #0D0F13;
+	--kasbo-surface: #15181E;
+	--kasbo-surface-2: #1B1F27;
+	--kasbo-surface-3: #232833;
+	--kasbo-border: #262B35;
+	--kasbo-border-strong: #343A47;
+	--kasbo-text: #E9ECF1;
+	--kasbo-muted: #8B93A3;
+	--kasbo-faint: #5D6574;
+	--kasbo-accent: #7C5CFF;
+	--kasbo-accent-hover: #8E72FF;
+	--kasbo-accent-soft: rgba(124, 92, 255, 0.14);
+	--kasbo-rec: #FF4D5E;
+	--kasbo-rec-soft: rgba(255, 77, 94, 0.14);
+	--kasbo-success: #2BD49A;
+	--kasbo-warning: #FFC53D;
+	--kasbo-radius: 10px;
+	--kasbo-radius-sm: 8px;
+	--kasbo-font: "Segoe UI", "Segoe UI Variable", Tahoma, system-ui, sans-serif;
+	--kasbo-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-family: var(--kasbo-font);
+	color: var(--kasbo-text);
+	-webkit-font-smoothing: antialiased;
+	user-select: none;
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	border: 0;
+	background: none;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+	outline: 2px solid var(--kasbo-accent);
+	outline-offset: 2px;
+}
+
+.kasbo-icon {
+	width: 18px;
+	height: 18px;
+	flex: none;
+	stroke: currentColor;
+	fill: none;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.kasbo-kbd {
+	display: inline-flex;
+	align-items: center;
+	padding: 1px 6px;
+	border: 1px solid var(--kasbo-border-strong);
+	border-radius: 5px;
+	background: var(--kasbo-surface-2);
+	font-size: 11px;
+	font-family: var(--kasbo-font);
+	color: var(--kasbo-muted);
+	direction: ltr;
+	white-space: nowrap;
+}

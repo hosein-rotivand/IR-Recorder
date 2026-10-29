@@ -1,0 +1,130 @@
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+	background: transparent;
+}
+
+body {
+	display: grid;
+	place-items: center;
+}
+
+.kasbo-cbar {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 52px;
+	padding: 0 8px 0 4px;
+	border: 1px solid var(--kasbo-border-strong);
+	border-radius: 14px;
+	background: rgba(21, 24, 30, 0.97);
+	-webkit-app-region: drag;
+}
+
+.kasbo-cbar__grip {
+	display: grid;
+	place-items: center;
+	width: 22px;
+	color: var(--kasbo-faint);
+}
+
+.kasbo-cbar__grip .kasbo-icon {
+	width: 16px;
+	height: 16px;
+}
+
+.kasbo-cbar__time {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 84px;
+	padding: 0 6px;
+	font-size: 15px;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+.kasbo-cbar__dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--kasbo-rec);
+	animation: kasbo-blink 1.2s ease-in-out infinite;
+}
+
+.kasbo-cbar.is-paused .kasbo-cbar__dot {
+	background: var(--kasbo-warning);
+	animation: none;
+}
+
+.kasbo-cbar__sep {
+	width: 1px;
+	height: 24px;
+	margin: 0 4px;
+	background: var(--kasbo-border);
+}
+
+.kasbo-cbtn {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--kasbo-radius-sm);
+	color: var(--kasbo-muted);
+	-webkit-app-region: no-drag;
+	transition: background 0.15s var(--kasbo-ease), color 0.15s var(--kasbo-ease);
+}
+
+.kasbo-cbtn:hover {
+	background: var(--kasbo-surface-3);
+	color: var(--kasbo-text);
+}
+
+.kasbo-cbtn.is-on {
+	background: var(--kasbo-accent-soft);
+	color: var(--kasbo-accent-hover);
+}
+
+.kasbo-cbtn.is-hidden {
+	display: none;
+}
+
+.kasbo-cbtn--stop {
+	margin-left: 2px;
+	background: var(--kasbo-rec);
+	color: #fff;
+}
+
+.kasbo-cbtn--stop:hover {
+	background: #ff6371;
+	color: #fff;
+}
+
+.kasbo-cbtn--stop .kasbo-icon {
+	fill: currentColor;
+	stroke: none;
+}
+
+.kasbo-icon--play,
+.kasbo-icon--mic-off {
+	display: none;
+}
+
+.kasbo-cbar.is-paused .kasbo-icon--pause,
+.kasbo-cbar.is-muted .kasbo-icon--mic {
+	display: none;
+}
+
+.kasbo-cbar.is-paused .kasbo-icon--play,
+.kasbo-cbar.is-muted .kasbo-icon--mic-off {
+	display: block;
+}
+
+.kasbo-cbar.is-muted [data-action="mic"] {
+	color: var(--kasbo-rec);
+}
+
+@keyframes kasbo-blink {
+	50% { opacity: 0.35; }
+}

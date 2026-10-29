@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; media-src 'self' blob: mediastream:">
+	<title>IR Recorder</title>
+	<link rel="stylesheet" href="../shared/kasbo-base.css">
+	<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+	<header class="kasbo-titlebar">
+		<div class="kasbo-brand">
+			<span class="kasbo-brand__mark"><span></span></span>
+			<span class="kasbo-brand__name">IR Recorder</span>
+			<span class="kasbo-brand__by">کسب و مال</span>
+		</div>
+	</header>
+
+	<main class="kasbo-main">
+		<div id="kasbo-notices" class="kasbo-notices"></div>
+
+		<!-- Mode -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">حالت ضبط</h2>
+			<div class="kasbo-modes" data-setting="mode" data-type="choice">
+				<button type="button" class="kasbo-mode" data-value="reels">
+					<span class="kasbo-mode__shape kasbo-mode__shape--reels"></span>
+					<span class="kasbo-mode__title">ریلز / شورتس</span>
+					<span class="kasbo-mode__meta" dir="ltr">1080×1920 · 9:16</span>
+				</button>
+				<button type="button" class="kasbo-mode" data-value="youtube">
+					<span class="kasbo-mode__shape kasbo-mode__shape--youtube"></span>
+					<span class="kasbo-mode__title">یوتیوب</span>
+					<span class="kasbo-mode__meta" dir="ltr">1920×1080 · 16:9</span>
+				</button>
+				<button type="button" class="kasbo-mode" data-value="custom">
+					<span class="kasbo-mode__shape kasbo-mode__shape--browser"></span>
+					<span class="kasbo-mode__title">تب مرورگر</span>
+					<span class="kasbo-mode__meta">کادر آزاد روی محتوای تب</span>
+				</button>
+				<button type="button" class="kasbo-mode" data-value="fullscreen">
+					<span class="kasbo-mode__shape kasbo-mode__shape--screen"></span>
+					<span class="kasbo-mode__title">تمام صفحه</span>
+					<span class="kasbo-mode__meta">کل مانیتور</span>
+				</button>
+			</div>
+			<div id="kasbo-display-row" class="kasbo-row kasbo-row--field" hidden>
+				<span class="kasbo-row__label">مانیتور</span>
+				<select id="kasbo-display" class="kasbo-select" aria-label="مانیتور"></select>
+			</div>
+		</section>
+
+		<!-- Audio -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">صدا</h2>
+			<div class="kasbo-card">
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">صدای سیستم</span>
+						<span class="kasbo-row__desc">صدای ویندوز، مرورگر و برنامه‌ها</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="systemAudio"><span></span></span>
+				</label>
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">میکروفون</span>
+						<span class="kasbo-row__desc">صدای خودت، با حذف نویز</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="mic"><span></span></span>
+				</label>
+				<div class="kasbo-row kasbo-row--sub" data-show-if="mic">
+					<select id="kasbo-mic" class="kasbo-select" data-setting="micDeviceId" aria-label="انتخاب میکروفون"></select>
+					<div class="kasbo-meter" aria-hidden="true"><span id="kasbo-meter-bar"></span></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Webcam -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">وبکم</h2>
+			<div class="kasbo-card">
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">وبکم دایره‌ای</span>
+						<span class="kasbo-row__desc">گوشه‌ی ویدیو؛ حین ضبط با <span class="kasbo-kbd">Alt+Shift+C</span> جابه‌جا می‌شود</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="webcam"><span></span></span>
+				</label>
+				<div class="kasbo-webcam" data-show-if="webcam">
+					<div class="kasbo-webcam__preview">
+						<video id="kasbo-cam-preview" muted playsinline></video>
+					</div>
+					<div class="kasbo-webcam__controls">
+						<select id="kasbo-cam" class="kasbo-select" data-setting="webcamDeviceId" aria-label="انتخاب وبکم"></select>
+						<div class="kasbo-inline">
+							<span class="kasbo-inline__label">گوشه</span>
+							<div class="kasbo-corners" data-setting="webcamCorner" data-type="choice">
+								<button type="button" data-value="top-left" title="بالا چپ"></button>
+								<button type="button" data-value="top-right" title="بالا راست"></button>
+								<button type="button" data-value="bottom-left" title="پایین چپ"></button>
+								<button type="button" data-value="bottom-right" title="پایین راست"></button>
+							</div>
+						</div>
+						<div class="kasbo-inline">
+							<span class="kasbo-inline__label">اندازه</span>
+							<div class="kasbo-seg" data-setting="webcamSize" data-type="choice">
+								<button type="button" data-value="s">کوچک</button>
+								<button type="button" data-value="m">متوسط</button>
+								<button type="button" data-value="l">بزرگ</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Effects -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">جلوه‌ها</h2>
+			<div class="kasbo-card">
+				<label class="kasbo-row" data-hide-if-mode="fullscreen">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">کادر دنبال ماوس <span class="kasbo-badge">جدید</span></span>
+						<span class="kasbo-row__desc">ماوس به لبه برسد، کادر نرم و سینمایی دنبالش می‌رود</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="followCursor"><span></span></span>
+				</label>
+				<div class="kasbo-row kasbo-row--sub" data-show-if="followCursor" data-hide-if-mode="fullscreen">
+					<div class="kasbo-seg kasbo-seg--full" data-setting="followSpeed" data-type="choice">
+						<button type="button" data-value="soft">خیلی نرم</button>
+						<button type="button" data-value="normal">متعادل</button>
+						<button type="button" data-value="fast">سریع</button>
+					</div>
+				</div>
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">زوم خودکار</span>
+						<span class="kasbo-row__desc">با هر کلیک نرم زوم می‌کند و دنبال ماوس می‌رود</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="autoZoom"><span></span></span>
+				</label>
+				<div class="kasbo-row kasbo-row--sub" data-show-if="autoZoom">
+					<input type="range" class="kasbo-range" min="1.4" max="2.6" step="0.1" data-setting="zoomLevel" data-type="number" aria-label="میزان زوم">
+					<span id="kasbo-zoom-value" class="kasbo-value">1.8×</span>
+				</div>
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">هایلایت کلیک</span>
+						<span class="kasbo-row__desc">موج رنگی روی هر کلیک</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="clickHighlight"><span></span></span>
+				</label>
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">نمایش کلیدها</span>
+						<span class="kasbo-row__desc">کلیدهای فشرده‌شده پایین ویدیو</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="keystrokes"><span></span></span>
+				</label>
+				<div class="kasbo-row kasbo-row--sub" data-show-if="keystrokes">
+					<div class="kasbo-seg kasbo-seg--full" data-setting="keystrokeMode" data-type="choice">
+						<button type="button" data-value="shortcuts">فقط میانبرها</button>
+						<button type="button" data-value="all">همه‌ی کلیدها</button>
+					</div>
+				</div>
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">شمارش معکوس</span>
+						<span class="kasbo-row__desc">۳ ثانیه قبل از شروع</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="countdown"><span></span></span>
+				</label>
+			</div>
+		</section>
+
+		<!-- Output -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">ذخیره</h2>
+			<div class="kasbo-card">
+				<label class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">ذخیره‌ی فوری</span>
+						<span class="kasbo-row__desc">بدون تبدیل دوباره، در یک چشم به هم زدن. برای ادیت در Premiere خاموشش کن تا 60fps ثابت بسازد.</span>
+					</span>
+					<span class="kasbo-switch"><input type="checkbox" data-setting="fastSave"><span></span></span>
+				</label>
+				<div class="kasbo-row">
+					<span class="kasbo-row__text">
+						<span class="kasbo-row__label">MP4 · H.264 · 60fps</span>
+						<span id="kasbo-output-dir" class="kasbo-row__desc kasbo-path"></span>
+					</span>
+					<div class="kasbo-actions">
+						<button type="button" class="kasbo-btn kasbo-btn--soft" data-action="choose-folder">تغییر</button>
+						<button type="button" class="kasbo-btn kasbo-btn--soft" data-action="open-folder" title="باز کردن پوشه">
+							<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Shortcuts -->
+		<section class="kasbo-section">
+			<h2 class="kasbo-section__title">میانبرها</h2>
+			<ul class="kasbo-shortcuts">
+				<li><span>شروع / پایان ضبط</span><span class="kasbo-kbd">Alt+Shift+R</span></li>
+				<li><span>توقف موقت</span><span class="kasbo-kbd">Alt+Shift+P</span></li>
+				<li><span>طراحی روی صفحه</span><span class="kasbo-kbd">Alt+Shift+D</span></li>
+				<li><span>پاک کردن طراحی</span><span class="kasbo-kbd">Alt+Shift+X</span></li>
+				<li><span>روشن/خاموش زوم</span><span class="kasbo-kbd">Alt+Shift+Z</span></li>
+				<li><span>دنبال کردن ماوس</span><span class="kasbo-kbd">Alt+Shift+F</span></li>
+				<li><span>جابه‌جایی وبکم</span><span class="kasbo-kbd">Alt+Shift+C</span></li>
+				<li><span>قطع میکروفون</span><span class="kasbo-kbd">Alt+Shift+M</span></li>
+			</ul>
+		</section>
+	</main>
+
+	<footer class="kasbo-footer">
+		<div id="kasbo-result" class="kasbo-result" hidden>
+			<div class="kasbo-result__icon">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
+			</div>
+			<div class="kasbo-result__text">
+				<span class="kasbo-result__title">ویدیو آماده است</span>
+				<span id="kasbo-result-file" class="kasbo-result__file"></span>
+			</div>
+			<button type="button" class="kasbo-btn kasbo-btn--soft" data-action="open-file">پخش</button>
+			<button type="button" class="kasbo-btn kasbo-btn--soft" data-action="reveal-file" title="نمایش در پوشه">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+			</button>
+			<button type="button" class="kasbo-result__close" data-action="dismiss" title="بستن">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+			</button>
+		</div>
+
+		<div id="kasbo-toast" class="kasbo-toast" hidden></div>
+
+		<div id="kasbo-progress" class="kasbo-progress" hidden>
+			<div class="kasbo-progress__head">
+				<span id="kasbo-progress-label">در حال ذخیره…</span>
+				<span id="kasbo-progress-value">0%</span>
+			</div>
+			<div class="kasbo-progress__track"><span id="kasbo-progress-bar"></span></div>
+		</div>
+
+		<button type="button" id="kasbo-record" class="kasbo-record" data-action="record">
+			<span class="kasbo-record__dot"></span>
+			<span id="kasbo-record-label">انتخاب کادر و ضبط</span>
+			<span class="kasbo-kbd">Alt+Shift+R</span>
+		</button>
+	</footer>
+
+	<script src="panel.js"></script>
+</body>
+</html>

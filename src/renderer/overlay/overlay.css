@@ -1,0 +1,355 @@
+html,
+body {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background: transparent;
+}
+
+.kasbo-overlay[data-phase="hidden"] .kasbo-frame,
+.kasbo-overlay[data-phase="hidden"] .kasbo-select-bar {
+	display: none;
+}
+
+/* ---------------------------------------------------------------- frame */
+
+.kasbo-frame {
+	position: absolute;
+	border: 1.5px solid rgba(255, 255, 255, 0.95);
+	border-radius: 2px;
+	box-shadow: 0 0 0 100vmax rgba(6, 8, 12, 0.58);
+	cursor: move;
+	transition: outline-color 0.2s var(--kasbo-ease);
+}
+
+.kasbo-frame__grid {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		linear-gradient(to right, transparent calc(33.33% - 0.5px), rgba(255, 255, 255, 0.18) calc(33.33% - 0.5px), rgba(255, 255, 255, 0.18) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px), transparent calc(66.66% - 0.5px), rgba(255, 255, 255, 0.18) calc(66.66% - 0.5px), rgba(255, 255, 255, 0.18) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px)),
+		linear-gradient(to bottom, transparent calc(33.33% - 0.5px), rgba(255, 255, 255, 0.18) calc(33.33% - 0.5px), rgba(255, 255, 255, 0.18) calc(33.33% + 0.5px), transparent calc(33.33% + 0.5px), transparent calc(66.66% - 0.5px), rgba(255, 255, 255, 0.18) calc(66.66% - 0.5px), rgba(255, 255, 255, 0.18) calc(66.66% + 0.5px), transparent calc(66.66% + 0.5px));
+}
+
+.kasbo-frame__badge {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 5px 10px;
+	border-radius: var(--kasbo-radius-sm);
+	background: rgba(13, 15, 19, 0.85);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--kasbo-text);
+	direction: ltr;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.kasbo-handle {
+	position: absolute;
+	z-index: 2;
+}
+
+.kasbo-handle--corner {
+	width: 14px;
+	height: 14px;
+	border-radius: 4px;
+	background: #fff;
+	border: 2px solid var(--kasbo-accent);
+}
+
+.kasbo-handle[data-handle="nw"] { top: -8px; left: -8px; cursor: nwse-resize; }
+.kasbo-handle[data-handle="ne"] { top: -8px; right: -8px; cursor: nesw-resize; }
+.kasbo-handle[data-handle="sw"] { bottom: -8px; left: -8px; cursor: nesw-resize; }
+.kasbo-handle[data-handle="se"] { bottom: -8px; right: -8px; cursor: nwse-resize; }
+
+.kasbo-handle--edge {
+	display: none;
+	border-radius: 3px;
+	background: #fff;
+	border: 2px solid var(--kasbo-accent);
+}
+
+.kasbo-overlay.is-free .kasbo-handle--edge {
+	display: block;
+}
+
+.kasbo-handle[data-handle="n"],
+.kasbo-handle[data-handle="s"] {
+	left: 50%;
+	width: 28px;
+	height: 8px;
+	margin-left: -14px;
+	cursor: ns-resize;
+}
+
+.kasbo-handle[data-handle="n"] { top: -5px; }
+.kasbo-handle[data-handle="s"] { bottom: -5px; }
+
+.kasbo-handle[data-handle="e"],
+.kasbo-handle[data-handle="w"] {
+	top: 50%;
+	width: 8px;
+	height: 28px;
+	margin-top: -14px;
+	cursor: ew-resize;
+}
+
+.kasbo-handle[data-handle="e"] { right: -5px; }
+.kasbo-handle[data-handle="w"] { left: -5px; }
+
+.kasbo-overlay.is-free[data-phase="select"] {
+	cursor: crosshair;
+}
+
+/* Recording: only a thin outline just outside the captured area. */
+.kasbo-overlay[data-phase="preparing"] .kasbo-frame,
+.kasbo-overlay[data-phase="record"] .kasbo-frame {
+	border: 0;
+	box-shadow: none;
+	pointer-events: none;
+	outline: 2px solid rgba(255, 77, 94, 0.9);
+	outline-offset: 8px;
+	border-radius: 0;
+}
+
+.kasbo-overlay[data-phase="preparing"] .kasbo-frame {
+	outline-color: var(--kasbo-accent);
+	animation: kasbo-pulse 1.1s ease-in-out infinite;
+}
+
+.kasbo-overlay[data-phase="preparing"] .kasbo-frame > *,
+.kasbo-overlay[data-phase="record"] .kasbo-frame > * {
+	display: none;
+}
+
+.kasbo-overlay.no-frame .kasbo-frame {
+	outline: 0;
+}
+
+@keyframes kasbo-pulse {
+	50% { outline-color: rgba(124, 92, 255, 0.35); }
+}
+
+/* ---------------------------------------------------------------- bars */
+
+.kasbo-bar {
+	position: absolute;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px;
+	border: 1px solid var(--kasbo-border);
+	border-radius: 12px;
+	background: rgba(21, 24, 30, 0.96);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+	font-size: 13px;
+}
+
+.kasbo-bar__label {
+	padding: 0 8px;
+	font-weight: 600;
+	color: var(--kasbo-muted);
+	white-space: nowrap;
+}
+
+.kasbo-bar__sep {
+	width: 1px;
+	height: 22px;
+	background: var(--kasbo-border);
+}
+
+.kasbo-select-bar {
+	display: none;
+}
+
+.kasbo-overlay[data-phase="select"] .kasbo-select-bar {
+	display: flex;
+}
+
+.kasbo-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 36px;
+	padding: 0 14px;
+	border-radius: var(--kasbo-radius);
+	font-weight: 600;
+	white-space: nowrap;
+	transition: background 0.15s var(--kasbo-ease);
+}
+
+.kasbo-btn--ghost:hover {
+	background: var(--kasbo-surface-3);
+}
+
+.kasbo-btn--rec {
+	background: var(--kasbo-rec);
+	color: #fff;
+}
+
+.kasbo-btn--rec:hover {
+	background: #ff6371;
+}
+
+.kasbo-btn--rec .kasbo-kbd,
+.kasbo-btn--accent .kasbo-kbd {
+	border-color: rgba(255, 255, 255, 0.3);
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+}
+
+.kasbo-btn--accent {
+	background: var(--kasbo-accent);
+	color: #fff;
+}
+
+.kasbo-btn--accent:hover {
+	background: var(--kasbo-accent-hover);
+}
+
+.kasbo-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+/* ---------------------------------------------------------------- countdown */
+
+.kasbo-countdown {
+	position: absolute;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+
+.kasbo-countdown.is-visible {
+	display: flex;
+}
+
+.kasbo-countdown__ring {
+	display: grid;
+	place-items: center;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	background: rgba(13, 15, 19, 0.8);
+	border: 3px solid var(--kasbo-rec);
+	box-shadow: 0 0 0 10px rgba(255, 77, 94, 0.15);
+	font-size: 68px;
+	font-weight: 700;
+	color: #fff;
+}
+
+.kasbo-countdown__ring.is-tick span {
+	animation: kasbo-tick 1s var(--kasbo-ease);
+}
+
+.kasbo-countdown__hint {
+	padding: 6px 12px;
+	border-radius: var(--kasbo-radius-sm);
+	background: rgba(13, 15, 19, 0.8);
+	font-size: 13px;
+	color: var(--kasbo-muted);
+}
+
+@keyframes kasbo-tick {
+	0% { opacity: 0; transform: scale(1.6); }
+	25% { opacity: 1; transform: scale(1); }
+	85% { opacity: 1; }
+	100% { opacity: 0.2; transform: scale(0.85); }
+}
+
+/* ---------------------------------------------------------------- drawing */
+
+.kasbo-draw-canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.kasbo-overlay.is-drawing .kasbo-draw-canvas {
+	pointer-events: auto;
+	cursor: crosshair;
+	/* Near-invisible fill keeps the transparent window hit-testable. */
+	background: rgba(6, 8, 12, 0.06);
+}
+
+.kasbo-draw-bar {
+	top: 16px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: none;
+}
+
+.kasbo-overlay.is-drawing .kasbo-draw-bar {
+	display: flex;
+}
+
+.kasbo-seg {
+	display: flex;
+	gap: 2px;
+	padding: 2px;
+	border-radius: var(--kasbo-radius);
+	background: var(--kasbo-bg);
+}
+
+.kasbo-tool {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--kasbo-radius-sm);
+	color: var(--kasbo-muted);
+	transition: background 0.15s var(--kasbo-ease), color 0.15s var(--kasbo-ease);
+}
+
+.kasbo-tool:hover {
+	background: var(--kasbo-surface-3);
+	color: var(--kasbo-text);
+}
+
+.kasbo-tool.is-active {
+	background: var(--kasbo-accent-soft);
+	color: var(--kasbo-accent-hover);
+}
+
+.kasbo-colors {
+	display: flex;
+	gap: 6px;
+	padding: 0 4px;
+}
+
+.kasbo-swatch {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: var(--kasbo-swatch);
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+	transition: transform 0.15s var(--kasbo-ease);
+}
+
+.kasbo-swatch:hover {
+	transform: scale(1.12);
+}
+
+.kasbo-swatch.is-active {
+	box-shadow: 0 0 0 2px var(--kasbo-surface), 0 0 0 4px var(--kasbo-swatch);
+}
+
+.kasbo-width-dot {
+	display: block;
+	width: var(--kasbo-dot-size, 6px);
+	height: var(--kasbo-dot-size, 6px);
+	border-radius: 50%;
+	background: currentColor;
+}

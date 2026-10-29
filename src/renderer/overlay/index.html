@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+	<title>IR Recorder Overlay</title>
+	<link rel="stylesheet" href="../shared/kasbo-base.css">
+	<link rel="stylesheet" href="overlay.css">
+</head>
+<body class="kasbo-overlay" data-phase="hidden">
+	<canvas id="kasbo-draw" class="kasbo-draw-canvas"></canvas>
+
+	<div id="kasbo-frame" class="kasbo-frame">
+		<div class="kasbo-frame__grid"></div>
+		<span class="kasbo-handle kasbo-handle--corner" data-handle="nw"></span>
+		<span class="kasbo-handle kasbo-handle--corner" data-handle="ne"></span>
+		<span class="kasbo-handle kasbo-handle--corner" data-handle="sw"></span>
+		<span class="kasbo-handle kasbo-handle--corner" data-handle="se"></span>
+		<span class="kasbo-handle kasbo-handle--edge" data-handle="n"></span>
+		<span class="kasbo-handle kasbo-handle--edge" data-handle="s"></span>
+		<span class="kasbo-handle kasbo-handle--edge" data-handle="e"></span>
+		<span class="kasbo-handle kasbo-handle--edge" data-handle="w"></span>
+		<div id="kasbo-size" class="kasbo-frame__badge"></div>
+	</div>
+
+	<div id="kasbo-select-bar" class="kasbo-bar kasbo-select-bar">
+		<span id="kasbo-mode-label" class="kasbo-bar__label"></span>
+		<span class="kasbo-bar__sep"></span>
+		<button type="button" class="kasbo-btn kasbo-btn--ghost" data-action="cancel">
+			لغو <span class="kasbo-kbd">Esc</span>
+		</button>
+		<button type="button" class="kasbo-btn kasbo-btn--rec" data-action="confirm">
+			<span class="kasbo-dot"></span> شروع ضبط <span class="kasbo-kbd">Enter</span>
+		</button>
+	</div>
+
+	<div id="kasbo-countdown" class="kasbo-countdown">
+		<div class="kasbo-countdown__ring"><span id="kasbo-countdown-num">3</span></div>
+		<div class="kasbo-countdown__hint">توقف: <span class="kasbo-kbd">Alt+Shift+R</span></div>
+	</div>
+
+	<div id="kasbo-draw-bar" class="kasbo-bar kasbo-draw-bar">
+		<div class="kasbo-seg" role="group" aria-label="ابزار">
+			<button type="button" class="kasbo-tool is-active" data-tool="pen" title="قلم (1)">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+			</button>
+			<button type="button" class="kasbo-tool" data-tool="arrow" title="فلش (2)">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M5 19 19 5"/><path d="M9 5h10v10"/></svg>
+			</button>
+			<button type="button" class="kasbo-tool" data-tool="rect" title="کادر (3)">
+				<svg class="kasbo-icon" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/></svg>
+			</button>
+		</div>
+		<span class="kasbo-bar__sep"></span>
+		<div class="kasbo-colors" role="group" aria-label="رنگ">
+			<button type="button" class="kasbo-swatch is-active" data-color="#FF4D5E" title="قرمز"></button>
+			<button type="button" class="kasbo-swatch" data-color="#FFC53D" title="زرد"></button>
+			<button type="button" class="kasbo-swatch" data-color="#2BD49A" title="سبز"></button>
+			<button type="button" class="kasbo-swatch" data-color="#7C5CFF" title="بنفش"></button>
+			<button type="button" class="kasbo-swatch" data-color="#FFFFFF" title="سفید"></button>
+		</div>
+		<span class="kasbo-bar__sep"></span>
+		<button type="button" class="kasbo-tool" data-action="width" title="ضخامت">
+			<span id="kasbo-width-dot" class="kasbo-width-dot"></span>
+		</button>
+		<button type="button" class="kasbo-tool" data-action="undo" title="برگشت (Ctrl+Z)">
+			<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+		</button>
+		<button type="button" class="kasbo-tool" data-action="clear" title="پاک کردن همه">
+			<svg class="kasbo-icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/></svg>
+		</button>
+		<button type="button" class="kasbo-btn kasbo-btn--accent" data-action="done">
+			تمام <span class="kasbo-kbd">Esc</span>
+		</button>
+	</div>
+
+	<script src="../shared/kasbo-draw.js"></script>
+	<script src="overlay.js"></script>
+</body>
+</html>
